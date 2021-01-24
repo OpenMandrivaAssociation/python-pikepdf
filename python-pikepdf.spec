@@ -10,7 +10,7 @@ Group:		Development/Python
 License:	MPLv2.0
 URL:		https://github.com/pikepdf/pikepdf
 Source0:	http://pypi.io/packages/source/p/%{module}/%{module}-%{version}.tar.gz
-Patch1:		0001-Relax-some-requirements.patch
+#Patch1:		0001-Relax-some-requirements.patch
 
 BuildRequires:	pkgconfig(libqpdf) >= 10.0.3
 BuildRequires:	pkgconfig(python)
