@@ -1,0 +1,109 @@
+%bcond_without test
+
+%define module	pikepdf
+
+Name:		python-%{module}
+Version:	2.2.4
+Release:	%mkrel 1
+Summary:	Read and write PDFs with Python, powered by qpdf
+Group:		Development/Python
+License:	MPLv2.0
+URL:		https://github.com/pikepdf/pikepdf
+Source0:	http://pypi.io/packages/source/p/%{module}/%{module}-%{version}.tar.gz
+Patch1:		0001-Relax-some-requirements.patch
+
+BuildRequires:	gcc-c++
+BuildRequires:	pkgconfig(libqpdf) >= 10.0.3
+BuildRequires:	pkgconfig(python3)
+BuildRequires:	pybind11-devel >= 2.6.1-2
+BuildRequires:	python3dist(lxml) >= 4
+BuildRequires:	python3dist(pybind11) >= 2.6
+BuildRequires:	python3dist(pybind11) < 3
+BuildRequires:	python3dist(setuptools)
+BuildRequires:	python3dist(setuptools-scm)
+BuildRequires:	python3dist(setuptools-scm[toml]) >= 4.1
+BuildRequires:	python3dist(setuptools-scm-git-archive)
+# Tests:
+%if %{with test}
+BuildRequires:	poppler
+BuildRequires:	python3dist(attrs) >= 20.2
+BuildRequires:	python3dist(hypothesis) >= 5
+BuildRequires:	python3dist(hypothesis) < 6
+BuildRequires:	python3dist(pillow) >= 7
+BuildRequires:	python3dist(psutil) >= 5
+BuildRequires:	python3dist(pytest) >= 6
+BuildRequires:	python3dist(pytest) < 7
+BuildRequires:	python3dist(pytest-runner)
+BuildRequires:	python3dist(pytest-timeout) >= 1.4.2
+BuildRequires:	python3dist(pytest-xdist) >= 1.28
+BuildRequires:	python3dist(pytest-xdist) < 3
+BuildRequires:	python3dist(python-xmp-toolkit) >= 2.0.1
+%endif
+
+%description
+pikepdf is a Python library for reading and writing PDF files. pikepdf is
+based on QPDF, a powerful PDF manipulation and repair library.
+
+
+%package -n	python3-%{module}
+Summary:	Read and write PDFs with Python3, powered by qpdf
+Group:		Development/Python
+%{?python_provide:%python_provide python3-%{module}}
+
+%description -n	python3-%{module}
+pikepdf is a Python 3 library for reading and writing PDF files. pikepdf
+is based on QPDF, a powerful PDF manipulation and repair library.
+
+
+%package -n	python-%{module}-doc
+Summary:	pikepdf documentation
+Group:		Documentation
+BuildRequires:	python3dist(sphinx) >= 1.4
+BuildRequires:	python3dist(sphinx-rtd-theme)
+BuildRequires:	python3dist(pillow) >= 7
+BuildRequires:	python3dist(matplotlib)
+BuildRequires:	ipython
+
+%description -n	python-%{module}-doc
+Documentation for pikepdf.
+
+
+%prep
+%autosetup -n %{module}-%{version} -p1
+
+# Remove bundled egg-info
+rm -rf src/%{module}.egg-info
+
+# We don't build docs against the installed version, so force the version.
+sed -i -e "s/release = .\+/release = '%{version}'/g" docs/conf.py
+
+%build
+%py3_build
+
+# generate html docs
+pushd docs
+PYTHONPATH=$(ls -d ${PWD}/../build/lib*) sphinx-build-3 . ../html
+popd
+# remove the sphinx-build leftovers
+rm -rf html/.{doctrees,buildinfo}
+
+%install
+%py3_install
+
+# ensure .so modules are executable for proper -debuginfo extraction
+chmod a+rx %{buildroot}%{python3_sitearch}/%{module}/*.so
+
+%check
+%if %{with test}
+%{__python3} setup.py test --addopts -ra
+%endif
+
+%files -n python3-%{module}
+%license LICENSE.txt
+%doc README.md
+%{python3_sitearch}/%{module}/
+%{python3_sitearch}/%{module}-%{version}-py?.?.egg-info
+
+%files -n python-%{module}-doc
+%doc html
+%license LICENSE.txt
