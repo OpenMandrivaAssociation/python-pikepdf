@@ -1,10 +1,10 @@
-%bcond_without test
+%bcond_with test
 
 %define module	pikepdf
 
 Name:		python-%{module}
-Version:	2.2.4
-Release:	%mkrel 1
+Version:	2.4.0
+Release:	1
 Summary:	Read and write PDFs with Python, powered by qpdf
 Group:		Development/Python
 License:	MPLv2.0
@@ -12,9 +12,8 @@ URL:		https://github.com/pikepdf/pikepdf
 Source0:	http://pypi.io/packages/source/p/%{module}/%{module}-%{version}.tar.gz
 Patch1:		0001-Relax-some-requirements.patch
 
-BuildRequires:	gcc-c++
 BuildRequires:	pkgconfig(libqpdf) >= 10.0.3
-BuildRequires:	pkgconfig(python3)
+BuildRequires:	pkgconfig(python)
 BuildRequires:	pybind11-devel >= 2.6.1-2
 BuildRequires:	python3dist(lxml) >= 4
 BuildRequires:	python3dist(pybind11) >= 2.6
@@ -40,19 +39,11 @@ BuildRequires:	python3dist(pytest-xdist) < 3
 BuildRequires:	python3dist(python-xmp-toolkit) >= 2.0.1
 %endif
 
+%{?python_provide:%python_provide python3-%{module}}
+
 %description
 pikepdf is a Python library for reading and writing PDF files. pikepdf is
 based on QPDF, a powerful PDF manipulation and repair library.
-
-
-%package -n	python3-%{module}
-Summary:	Read and write PDFs with Python3, powered by qpdf
-Group:		Development/Python
-%{?python_provide:%python_provide python3-%{module}}
-
-%description -n	python3-%{module}
-pikepdf is a Python 3 library for reading and writing PDF files. pikepdf
-is based on QPDF, a powerful PDF manipulation and repair library.
 
 
 %package -n	python-%{module}-doc
@@ -67,7 +58,6 @@ BuildRequires:	ipython
 %description -n	python-%{module}-doc
 Documentation for pikepdf.
 
-
 %prep
 %autosetup -n %{module}-%{version} -p1
 
@@ -78,7 +68,7 @@ rm -rf src/%{module}.egg-info
 sed -i -e "s/release = .\+/release = '%{version}'/g" docs/conf.py
 
 %build
-%py3_build
+%py_build
 
 # generate html docs
 pushd docs
@@ -88,21 +78,21 @@ popd
 rm -rf html/.{doctrees,buildinfo}
 
 %install
-%py3_install
+%py_install
 
 # ensure .so modules are executable for proper -debuginfo extraction
-chmod a+rx %{buildroot}%{python3_sitearch}/%{module}/*.so
+chmod a+rx %{buildroot}%{python_sitearch}/%{module}/*.so
 
 %check
 %if %{with test}
-%{__python3} setup.py test --addopts -ra
+%{__python} setup.py test --addopts -ra
 %endif
 
-%files -n python3-%{module}
+%files
 %license LICENSE.txt
 %doc README.md
-%{python3_sitearch}/%{module}/
-%{python3_sitearch}/%{module}-%{version}-py?.?.egg-info
+%{python_sitearch}/%{module}/
+%{python_sitearch}/%{module}-%{version}-py?.?.egg-info
 
 %files -n python-%{module}-doc
 %doc html
