@@ -14,13 +14,12 @@ Source0:	http://pypi.io/packages/source/p/%{module}/%{module}-%{version}.tar.gz
 
 BuildRequires:	pkgconfig(libqpdf) >= 10.0.3
 BuildRequires:	pkgconfig(python)
-BuildRequires:	pybind11-devel >= 2.6.1-2
+BuildRequires:	pybind11-devel
 BuildRequires:	python3dist(lxml) >= 4
-BuildRequires:	python3dist(pybind11) >= 2.6
-BuildRequires:	python3dist(pybind11) < 3
+BuildRequires:	python3dist(pybind11)
 BuildRequires:	python3dist(setuptools)
 BuildRequires:	python3dist(setuptools-scm)
-BuildRequires:	python3dist(setuptools-scm[toml]) >= 4.1
+#BuildRequires:	python3dist(setuptools-scm[toml]) >= 4.1
 BuildRequires:	python3dist(setuptools-scm-git-archive)
 # Tests:
 %if %{with test}
