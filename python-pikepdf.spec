@@ -12,7 +12,7 @@ URL:		https://github.com/pikepdf/pikepdf
 Source0:	http://pypi.io/packages/source/p/%{module}/%{module}-%{version}.tar.gz
 #Patch1:		0001-Relax-some-requirements.patch
 
-BuildRequires:	pkgconfig(libqpdf) >= 10.0.3
+BuildRequires:	pkgconfig(libqpdf)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	pybind11-devel
 BuildRequires:	python3dist(lxml) >= 4
