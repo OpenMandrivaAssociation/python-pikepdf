@@ -25,6 +25,8 @@ BuildRequires:  python3dist(sphinx)
 BuildRequires:  python3dist(traitlets)
 BuildRequires:  python3dist(ipython-genutils)
 BuildRequires:  python3dist(decorator)
+BuildRequires:  python3dist(pickleshare)
+
 # Tests:
 %if %{with test}
 BuildRequires:	poppler
