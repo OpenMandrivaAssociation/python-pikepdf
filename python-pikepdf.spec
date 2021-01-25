@@ -24,6 +24,7 @@ BuildRequires:	python3dist(setuptools-scm-git-archive)
 BuildRequires:  python3dist(sphinx)
 BuildRequires:  python3dist(traitlets)
 BuildRequires:  python3dist(ipython-genutils)
+BuildRequires:  python3dist(decorator)
 # Tests:
 %if %{with test}
 BuildRequires:	poppler
