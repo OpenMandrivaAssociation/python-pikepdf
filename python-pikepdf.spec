@@ -52,17 +52,17 @@ pikepdf is a Python library for reading and writing PDF files. pikepdf is
 based on QPDF, a powerful PDF manipulation and repair library.
 
 
-%package -n	python-%{module}-doc
-Summary:	pikepdf documentation
-Group:		Documentation
-BuildRequires:	python3dist(sphinx) >= 1.4
-BuildRequires:	python3dist(sphinx-rtd-theme)
-BuildRequires:	python3dist(pillow) >= 7
-BuildRequires:	python3dist(matplotlib)
-BuildRequires:	ipython
-
-%description -n	python-%{module}-doc
-Documentation for pikepdf.
+#package -n	python-%{module}-doc
+#Summary:	pikepdf documentation
+#Group:		Documentation
+#BuildRequires:	python3dist(sphinx) >= 1.4
+#BuildRequires:	python3dist(sphinx-rtd-theme)
+#BuildRequires:	python3dist(pillow) >= 7
+#BuildRequires:	python3dist(matplotlib)
+#BuildRequires:	ipython
+#
+#description -n	python-%{module}-doc
+#Documentation for pikepdf.
 
 %prep
 %autosetup -n %{module}-%{version} -p1
@@ -89,10 +89,6 @@ rm -rf html/.{doctrees,buildinfo}
 # ensure .so modules are executable for proper -debuginfo extraction
 chmod a+rx %{buildroot}%{python_sitearch}/%{module}/*.so
 
-%check
-%if %{with test}
-%{__python} setup.py test --addopts -ra
-%endif
 
 %files
 %license LICENSE.txt
@@ -100,6 +96,6 @@ chmod a+rx %{buildroot}%{python_sitearch}/%{module}/*.so
 %{python_sitearch}/%{module}/
 %{python_sitearch}/%{module}-%{version}-py?.?.egg-info
 
-%files -n python-%{module}-doc
-%doc html
-%license LICENSE.txt
+#files -n python-%{module}-doc
+#doc html
+#license LICENSE.txt
