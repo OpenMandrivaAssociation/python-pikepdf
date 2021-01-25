@@ -22,6 +22,7 @@ BuildRequires:	python3dist(setuptools-scm)
 #BuildRequires:	python3dist(setuptools-scm[toml]) >= 4.1
 BuildRequires:	python3dist(setuptools-scm-git-archive)
 BuildRequires:  python3dist(sphinx)
+BuildRequires:  python3dist(traitlets)
 # Tests:
 %if %{with test}
 BuildRequires:	poppler
