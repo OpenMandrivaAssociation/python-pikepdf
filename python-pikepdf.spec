@@ -77,9 +77,9 @@ sed -i -e "s/release = .\+/release = '%{version}'/g" docs/conf.py
 %py_build
 
 # generate html docs
-pushd docs
-PYTHONPATH=$(ls -d ${PWD}/../build/lib*) sphinx-build . ../html
-popd
+#pushd docs
+#PYTHONPATH=$(ls -d ${PWD}/../build/lib*) sphinx-build . ../html
+#popd
 # remove the sphinx-build leftovers
 rm -rf html/.{doctrees,buildinfo}
 
