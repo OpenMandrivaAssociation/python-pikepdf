@@ -1,3 +1,5 @@
+%define debug_package %{nil}
+
 %bcond_with test
 
 %define module	pikepdf
