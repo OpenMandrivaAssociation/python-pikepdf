@@ -29,6 +29,8 @@ BuildRequires:  python3dist(ipython-genutils)
 BuildRequires:  python3dist(decorator)
 BuildRequires:  python3dist(pickleshare)
 BuildRequires:  python3dist(backcall)
+BuildRequires: python-wheel
+BuildRequires: python-pip
 
 # Tests:
 %if %{with test}
