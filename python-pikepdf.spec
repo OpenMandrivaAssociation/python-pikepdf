@@ -6,7 +6,7 @@
 
 Name:		python-%{module}
 Version:	2.4.0
-Release:	1
+Release:	2
 Summary:	Read and write PDFs with Python, powered by qpdf
 Group:		Development/Python
 License:	MPLv2.0
@@ -96,7 +96,7 @@ chmod a+rx %{buildroot}%{python_sitearch}/%{module}/*.so
 %license LICENSE.txt
 %doc README.md
 %{python_sitearch}/%{module}/
-%{python_sitearch}/%{module}-%{version}-py?.?.egg-info
+%{python_sitearch}/%{module}-%{version}-py*.*.egg-info
 
 #files -n python-%{module}-doc
 #doc html
