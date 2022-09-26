@@ -5,13 +5,13 @@
 %define module	pikepdf
 
 Name:		python-%{module}
-Version:	2.4.0
-Release:	2
+Version:	6.0.2
+Release:	1
 Summary:	Read and write PDFs with Python, powered by qpdf
 Group:		Development/Python
 License:	MPLv2.0
 URL:		https://github.com/pikepdf/pikepdf
-Source0:	http://pypi.io/packages/source/p/%{module}/%{module}-%{version}.tar.gz
+Source0:	https://pypi.io/packages/source/p/%{module}/%{module}-%{version}.tar.gz
 #Patch1:		0001-Relax-some-requirements.patch
 
 BuildRequires:	pkgconfig(libqpdf)
@@ -98,7 +98,7 @@ chmod a+rx %{buildroot}%{python_sitearch}/%{module}/*.so
 %license LICENSE.txt
 %doc README.md
 %{python_sitearch}/%{module}/
-%{python_sitearch}/%{module}-%{version}-py*.*.egg-info
+%{python_sitearch}/%{module}*.dist-info
 
 #files -n python-%{module}-doc
 #doc html
