@@ -5,7 +5,7 @@
 %define module	pikepdf
 
 Name:		python-%{module}
-Version:	6.2.1
+Version:	6.2.6
 Release:	1
 Summary:	Read and write PDFs with Python, powered by qpdf
 Group:		Development/Python
