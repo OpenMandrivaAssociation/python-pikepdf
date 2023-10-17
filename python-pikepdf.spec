@@ -6,7 +6,7 @@
 
 Name:		python-%{module}
 Version:	6.2.6
-Release:	2
+Release:	3
 Summary:	Read and write PDFs with Python, powered by qpdf
 Group:		Development/Python
 License:	MPLv2.0
