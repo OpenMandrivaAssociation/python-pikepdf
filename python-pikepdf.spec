@@ -22,6 +22,7 @@ BuildRequires:	python%{pyver}dist(lxml)
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(pybind11)
 BuildRequires:	python%{pyver}dist(pythran)
+BuildRequires:	python-pythran
 #BuildRequires:  python%{pyver}dist(pickleshare)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(scipy)
