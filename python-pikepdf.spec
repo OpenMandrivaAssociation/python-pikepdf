@@ -22,13 +22,9 @@ BuildRequires:	python%{pyver}dist(lxml)
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(pybind11)
 BuildRequires:	python%{pyver}dist(pythran)
-BuildRequires:	python-pythran
 #BuildRequires:  python%{pyver}dist(pickleshare)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(scipy)
-#BuildRequires:	python%{pyver}dist(setuptools-scm)
-##BuildRequires:	python%{pyver}dist(setuptools-scm[toml]) >= 4.1
-#BuildRequires:	python%{pyver}dist(setuptools-scm-git-archive)
 %if %{with doc}
 BuildRequires:  python%{pyver}dist(sphinx)
 %endif
