@@ -5,8 +5,8 @@
 
 Summary:	Read and write PDFs with Python, powered by qpdf
 Name:		python-%{module}
-Version:	8.7.1
-Release:	2
+Version:	8.10.1
+Release:	1
 Group:		Development/Python
 License:	MPLv2.0
 URL:		https://github.com/pikepdf/pikepdf
