@@ -5,7 +5,7 @@
 
 Summary:	Read and write PDFs with Python, powered by qpdf
 Name:		python-%{module}
-Version:	9.2.1
+Version:	9.4.0
 Release:	1
 Group:		Development/Python
 License:	MPLv2.0
