@@ -1,34 +1,34 @@
 %global module pikepdf
 
-%bcond_with	doc
-%bcond_with	test
+%bcond	doc 0
+%bcond	test 0
 
 Summary:	Read and write PDFs with Python, powered by qpdf
-Name:		python-%{module}
-Version:	9.4.0
-Release:	3
+Name:		python-pikepdf
+Version:	10.2.0
+Release:	1
 Group:		Development/Python
 License:	MPLv2.0
 URL:		https://github.com/pikepdf/pikepdf
-Source0:	https://pypi.io/packages/source/p/%{module}/%{module}-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/p/%{module}/%{module}-%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 BuildRequires:	pkgconfig(libqpdf)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	pybind11-devel
-#BuildRequires:  python%{pyver}dist(backcall)
-#BuildRequires:  python%{pyver}dist(decorator)
+#BuildRequires:  python%%{pyver}dist(backcall)
+#BuildRequires:  python%%{pyver}dist(decorator)
 BuildRequires:  python%{pyver}dist(ipython-genutils)
 BuildRequires:	python%{pyver}dist(lxml)
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(pybind11)
 BuildRequires:	python%{pyver}dist(pythran)
-#BuildRequires:  python%{pyver}dist(pickleshare)
+#BuildRequires:  python%%{pyver}dist(pickleshare)
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(scipy)
 %if %{with doc}
 BuildRequires:  python%{pyver}dist(sphinx)
 %endif
-#BuildRequires:  python%{pyver}dist(traitlets)
+#BuildRequires:  python%%{pyver}dist(traitlets)
 BuildRequires:	python%{pyver}dist(wheel)
 
 # Tests:
@@ -47,8 +47,6 @@ BuildRequires:	python%{pyver}dist(pytest-xdist) >= 1.28
 BuildRequires:	python%{pyver}dist(pytest-xdist) < 3
 BuildRequires:	python%{pyver}dist(python-xmp-toolkit) >= 2.0.1
 %endif
-
-#{?python_provide:%python_provide python3-%{module}}
 
 %description
 pikepdf is a Python library for reading and writing PDF files. pikepdf is
@@ -92,6 +90,7 @@ rm -rf src/%{module}*-info
 sed -i -e "s/release = .\+/release = '%{version}'/g" docs/conf.py
 
 %build
+export LDFLAGS="%{ldflags} -lpython%{pyver}"
 %py_build
 
 # generate html docs
