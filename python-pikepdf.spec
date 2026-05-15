@@ -16,6 +16,7 @@ Source0:	%{URL}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildSystem:	python
 BuildRequires:	cmake
+BuildRequires:	ninja
 BuildRequires:	clang-tools
 BuildRequires:	pkgconfig(libqpdf)
 BuildRequires:	pkgconfig(python)
