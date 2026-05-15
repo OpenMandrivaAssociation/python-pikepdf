@@ -1,50 +1,46 @@
-%global module pikepdf
+# nanobind baked in build options dont produce debuginfo
+%define _debugsource_template %{nil}
+%define module pikepdf
 
-%bcond	doc 0
-%bcond	test 0
+%bcond doc 0
+%bcond test 0
 
 Summary:	Read and write PDFs with Python, powered by qpdf
 Name:		python-pikepdf
-Version:	10.5.1
+Version:	10.6.0
 Release:	1
 Group:		Development/Python
-License:	MPLv2.0
+License:	MPL-2.0
 URL:		https://github.com/pikepdf/pikepdf
-Source0:	https://files.pythonhosted.org/packages/source/p/%{module}/%{module}-%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:	%{URL}/archive/v%{version}/%{name}-%{version}.tar.gz
 
+BuildSystem:	python
+BuildRequires:	cmake
+BuildRequires:	clang-tools
 BuildRequires:	pkgconfig(libqpdf)
 BuildRequires:	pkgconfig(python)
-BuildRequires:	pybind11-devel
-#BuildRequires:  python%%{pyver}dist(backcall)
-#BuildRequires:  python%%{pyver}dist(decorator)
-BuildRequires:  python%{pyver}dist(ipython-genutils)
 BuildRequires:	python%{pyver}dist(lxml)
+BuildRequires:	python%{pyver}dist(nanobind)
 BuildRequires:	python%{pyver}dist(pip)
-BuildRequires:	python%{pyver}dist(pybind11)
 BuildRequires:	python%{pyver}dist(pythran)
-#BuildRequires:  python%%{pyver}dist(pickleshare)
-BuildRequires:	python%{pyver}dist(setuptools)
+BuildRequires:	python%{pyver}dist(scikit-build-core)
 BuildRequires:	python%{pyver}dist(scipy)
-%if %{with doc}
-BuildRequires:  python%{pyver}dist(sphinx)
-%endif
-#BuildRequires:  python%%{pyver}dist(traitlets)
 BuildRequires:	python%{pyver}dist(wheel)
-
-# Tests:
+%if %{with doc}
+BuildRequires:	python%{pyver}dist(myst-parser)
+BuildRequires:  python%{pyver}dist(sphinx)
+BuildRequires:	python%{pyver}dist(sphinx-rtd-theme)
+%endif
 %if %{with test}
 BuildRequires:	poppler
 BuildRequires:	python%{pyver}dist(attrs) >= 20.2
-BuildRequires:	python%{pyver}dist(hypothesis) >= 5
-BuildRequires:	python%{pyver}dist(hypothesis) < 6
-BuildRequires:	python%{pyver}dist(pillow) >= 7
+BuildRequires:	python%{pyver}dist(hypothesis) >= 6.36
+BuildRequires:	python%{pyver}dist(numpy) >= 1.21.0
+BuildRequires:	python%{pyver}dist(pillow) >= 10.0.1
 BuildRequires:	python%{pyver}dist(psutil) >= 5
-BuildRequires:	python%{pyver}dist(pytest) >= 6
-BuildRequires:	python%{pyver}dist(pytest) < 7
-BuildRequires:	python%{pyver}dist(pytest-runner)
-BuildRequires:	python%{pyver}dist(pytest-timeout) >= 1.4.2
-BuildRequires:	python%{pyver}dist(pytest-xdist) >= 1.28
-BuildRequires:	python%{pyver}dist(pytest-xdist) < 3
+BuildRequires:	python%{pyver}dist(pytest) >= 6.2.5
+BuildRequires:	python%{pyver}dist(pytest-timeout) >= 2.1.0
+BuildRequires:	python%{pyver}dist(pytest-xdist) >= 2.5.0
 BuildRequires:	python%{pyver}dist(python-xmp-toolkit) >= 2.0.1
 %endif
 
@@ -52,49 +48,27 @@ BuildRequires:	python%{pyver}dist(python-xmp-toolkit) >= 2.0.1
 pikepdf is a Python library for reading and writing PDF files. pikepdf is
 based on QPDF, a powerful PDF manipulation and repair library.
 
-%files
-%license LICENSE.txt
-%doc README.md
-%{python_sitearch}/%{module}/
-%{python_sitearch}/%{module}-%{version}*-info/
-
-#----------------------------------------------------------------------------
-
 %if %{with doc}
 %package -n %{name}-doc
 Summary:	pikepdf documentation
 Group:		Documentation
-BuildRequires:	python%{pyver}dist(sphinx) >= 1.4
-BuildRequires:	python%{pyver}dist(sphinx-rtd-theme)
-BuildRequires:	python%{pyver}dist(pillow) >= 7
-BuildRequires:	python%{pyver}dist(matplotlib)
-BuildRequires:	ipython
 
 %description -n	%{name}-doc
 Documentation for pikepdf.
-
-%files -n %{name}-doc
-%license LICENSE.txt
-%doc html
 %endif
 
-#----------------------------------------------------------------------------
-
-%prep
-%autosetup -n %{module}-%{version} -p1
-
-# Remove bundled egg-info
-rm -rf src/%{module}*-info
-
+%if %{with doc}
+%prep -a
 # We don't build docs against the installed version, so force the version.
 sed -i -e "s/release = .\+/release = '%{version}'/g" docs/conf.py
+%endif
 
-%build
+%build -p
 export LDFLAGS="%{ldflags} -lpython%{pyver}"
-%py_build
 
 # generate html docs
 %if %{with doc}
+%build -a
 export PYTHONPATH="$PWD/build/lib.linux-%{_arch}-cpython-%{python3_version_nodots}"
 pushd docs
 sphinx-build . ../html
@@ -103,9 +77,18 @@ popd
 rm -rf html/.{doctrees,buildinfo}
 %endif
 
-%install
-%py_install
-
+%install -a
 # ensure .so modules are executable for proper -debuginfo extraction
 chmod a+rx %{buildroot}%{python_sitearch}/%{module}/*.so
 
+%files
+%license LICENSE.txt
+%doc README.md
+%{python_sitearch}/%{module}/
+%{python_sitearch}/%{module}-%{version}*-info/
+
+%if %{with doc}
+%files -n %{name}-doc
+%license LICENSE.txt
+%doc html
+%endif
