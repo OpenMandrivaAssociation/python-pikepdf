@@ -1,5 +1,3 @@
-# nanobind baked in build options dont produce debuginfo
-%define _debugsource_template %{nil}
 %define module pikepdf
 
 %bcond doc 0
@@ -7,7 +5,7 @@
 
 Summary:	Read and write PDFs with Python, powered by qpdf
 Name:		python-pikepdf
-Version:	10.7.1
+Version:	10.7.2
 Release:	1
 Group:		Development/Python
 License:	MPL-2.0
@@ -17,6 +15,9 @@ Source0:	%{URL}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildSystem:	python
 BuildRequires:	cmake
 BuildRequires:	ninja
+# Required to set internal build type in pyproject.toml to set build type in
+# order to generate debug info.
+BuildRequires:	tomcli
 BuildRequires:	clang-tools
 BuildRequires:	pkgconfig(libqpdf)
 BuildRequires:	pkgconfig(python)
@@ -57,6 +58,11 @@ Group:		Documentation
 %description -n	%{name}-doc
 Documentation for pikepdf.
 %endif
+
+%prep -a
+# Change the internal cmake.built-type from Release to RelWithDebInfo to
+# generate debug info.
+tomcli set pyproject.toml str 'tool.scikit-build.cmake.build-type' 'RelWithDebInfo'
 
 %if %{with doc}
 %prep -a
