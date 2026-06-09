@@ -5,7 +5,7 @@
 
 Summary:	Read and write PDFs with Python, powered by qpdf
 Name:		python-pikepdf
-Version:	10.7.3
+Version:	10.8.0
 Release:	1
 Group:		Development/Python
 License:	MPL-2.0
@@ -89,13 +89,11 @@ rm -rf html/.{doctrees,buildinfo}
 chmod a+rx %{buildroot}%{python_sitearch}/%{module}/*.so
 
 %files
-%license LICENSE.txt
 %doc README.md
 %{python_sitearch}/%{module}/
 %{python_sitearch}/%{module}-%{version}*-info/
 
 %if %{with doc}
 %files -n %{name}-doc
-%license LICENSE.txt
 %doc html
 %endif
