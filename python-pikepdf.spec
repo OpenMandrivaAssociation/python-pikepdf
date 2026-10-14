@@ -6,7 +6,7 @@
 Summary:	Read and write PDFs with Python, powered by qpdf
 Name:		python-pikepdf
 Version:	10.8.0
-Release:	1
+Release:	2
 Group:		Development/Python
 License:	MPL-2.0
 URL:		https://github.com/pikepdf/pikepdf
@@ -20,7 +20,7 @@ BuildRequires:	ninja
 BuildRequires:	tomcli
 BuildRequires:	clang-tools
 BuildRequires:	pkgconfig(libqpdf)
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	python%{pyver}dist(lxml)
 BuildRequires:	python%{pyver}dist(nanobind)
 BuildRequires:	python%{pyver}dist(pip)
